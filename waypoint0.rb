@@ -117,7 +117,7 @@ def make_wp0_decision2(firstSend, states)
         puts enter
         gets
     end
-    if(states['food'] == 1)
+    if(states['Food'] == 1)
         if(firstSend)
             food_second_decision()
         end
@@ -128,7 +128,7 @@ def make_wp0_decision2(firstSend, states)
         else
             return make_wp0_decision2(false, states)
         end
-    elsif (states['weapon'] == 1)
+    elsif (states['Weapon'] == 1)
         if(firstSend)
             weapon_second_decision()
         end
