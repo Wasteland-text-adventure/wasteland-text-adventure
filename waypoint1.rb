@@ -25,10 +25,10 @@ def get_waypoint1_result(game_states)
     bridge_decision = 0
     man_decision = 0
     fight_decision = 0
-    boy_decision = 0
+    charlie_decision = 0
 
     if(foodNum < 0.5)
-        bridge_decision = 2
+        bridge_decision = 1
         puts "You do not have enough food to take the long route.  Therefore you have to cross the bridge."
         puts enter
         gets
@@ -68,19 +68,44 @@ def get_waypoint1_result(game_states)
             puts "\'You FOOL! YOU MADE THE WRONG CHOICE! PREPARE TO DIE!.\'"
             puts enter
             gets
-            battle_decision = make_battle_decision(game_states);
+            battle_decision = make_battle_decision(game_states)
             game_states['Morality'] += 1
+            charlie_decision = make_charlie_decision(true)
+            if(charlie_decision)
+                game_states['CharlieSaved'] = true
+                charlie_decision = 1
+                puts "Charlie has joined your team!"
+                puts enter
+                gets
+                puts "You continue on the bridge until you reach the end."
+                puts enter
+                gets
+            else
+                puts "You bid farewell to Charlie and continue on your way until you reach the end of the bridge."
+                puts enter
+                gets
+                charlie_decision = 0
+            end
         else
             game_states['Morality'] -= 1
             game_states['CharlieSaved'] = false
+            puts "You let the man be and continue along the bridge until you reach the end."
+            puts enter
+            gets
         end
     else
-        puts "You do not have enough food to take the long route.  Therefore you have to cross the bridge."
+        puts "You take the route going the long way around the bridge."
         puts enter
         gets
+
+        puts "As you trek across the long path you didn't realize that it would take days to pass and consumed a good portion of your food."
+        puts enter
+        gets
+
+        game_states['Food'] -= 0.5
     end
 
-    game_states['Waypoint1'] = [bridge_decision, man_decision, fight_decision, boy_decision]
+    game_states['Waypoint1'] = [bridge_decision, man_decision, fight_decision, charlie_decision]
     return game_states
 end
 
@@ -107,7 +132,13 @@ end
 def make_battle_decision(game_states)
     enter =  "--Press enter to continue--"
     if(game_states['Weapon'] == 0)
-        game_states['Pet'] -= 0.5
+        wp0d1 = game_states['Waypoint0'][0]
+        wp0d2 = game_states['Waypoint0'][1]
+        if(wp0d1 == 1 && wp0d2 == 1)
+          game_states['Pet'] -= 0.25
+        else
+          game_states['Pet'] -= 0.5
+        end
         game_states['Weapon'] = 1
         puts "You stick Oreo on the armed man who attempts to fight Oreo off.  He is able to get a few swings off on Oreo; however, Oreo's fighting prowess enables him to latch on to the armed man's neck and stays there until the man dies."
         puts enter
@@ -144,5 +175,25 @@ def make_battle_decision(game_states)
     end
 end
 
-def make_charlie_decision()
+def make_charlie_decision(firstSend)
+    enter =  "--Press enter to continue--"
+    if(firstSend)
+      puts "After killing the armed man you rummage through his body until you find the keys for the cuffs that the boy is in.  You use the key and let the boy free.  You ask him his name."
+      puts enter
+      gets
+
+      puts "\'The name is Charlie.  ORIGIN STORY HERE.\'"
+      puts enter
+      gets
+    end
+
+    puts "You have a decision to make.  Would you like to take Charlie along with you on your journey?  [Y/n]"
+    charlie_decision = gets.chomp
+    if(charlie_decision.downcase == "y")
+      return true;
+    elsif(charlie_decision.downcase == "n")
+      return false;
+    else
+      make_charlie_decision(false)
+    end
 end
