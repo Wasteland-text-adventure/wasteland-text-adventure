@@ -4,14 +4,17 @@ require_relative 'waypoint1'
 
 # VARIABLES
 enter =  "--Press enter to continue--"
+name = ''
 game_states = {
      'Morality' => 0,
      'Food' => 0,
      'Weapon' => 0,
-     'Pet' => 1, # true means alive
+     'Pet' => 1,
      'Health' => 1,
-     'ChildSaved' => false,
-     'Waypoint' => 0
+     'CharlieSaved' => false,
+     'CurrentWaypoint' => 0,
+     'Waypoint0' => [0,0],
+     'Waypoint1' => [0,0,0,0]
  }
 
  def translate_game_states(game_states)
@@ -108,9 +111,8 @@ game_states = {
  end
 
 # STORY
-puts "Welcome to our post-apocalyptic adventure!"
-puts enter
-gets
+puts "Welcome to our post-apocalyptic adventure!  What is your name?"
+name = gets.chomp
 
 puts "To create the setting, you are with your Husky named Oreo"
 puts enter
@@ -133,6 +135,17 @@ puts enter
 gets
 
 game_states = get_waypoint0_result(game_states)
-game_states['Waypoint'] = 1
+game_states['CurrentWaypoint'] = 1
 translate_game_states(game_states)
 waypoint_check(game_states, 0)
+
+game_states = get_waypoint1_result(game_states)
+game_states['CurrentWaypoint'] = 2
+translate_game_states(game_states)
+waypoint_check(game_states, 0)
+
+puts "At the exit of the bridge you see a man with his eyes closed who looks to be meditating.  When you approach he opens his eyes and says to you \'" + name + ", your daughter is alive.\'"
+puts enter
+gets
+puts "TO BE CONTINUED..."
+gets

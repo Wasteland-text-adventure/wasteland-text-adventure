@@ -35,7 +35,7 @@ def get_waypoint0_result(game_states)
     if(wp0_decision1 == 1)
         if(wp0_decision2 == 1)
             game_states['Food'] = 0.5
-            game_states['ChildSaved'] = true
+            game_states['CharlieSaved'] = true
             game_states['Morality'] = 1
             puts "You gave the child food and dropped him off at the hospital.  He is extremely grateful for your help."
             puts enter
@@ -84,6 +84,7 @@ def get_waypoint0_result(game_states)
             gets
         end
     end
+    game_states['Waypoint0'] = [wp0_decision1, wp0_decision2]
 
     return game_states
 end
@@ -117,7 +118,7 @@ def make_wp0_decision2(firstSend, states)
         puts enter
         gets
     end
-    if(states['food'] == 1)
+    if(states['Food'] == 1)
         if(firstSend)
             food_second_decision()
         end
@@ -128,7 +129,7 @@ def make_wp0_decision2(firstSend, states)
         else
             return make_wp0_decision2(false, states)
         end
-    elsif (states['weapon'] == 1)
+    elsif (states['Weapon'] == 1)
         if(firstSend)
             weapon_second_decision()
         end
