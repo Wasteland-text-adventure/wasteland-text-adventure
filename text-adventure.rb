@@ -8,10 +8,12 @@ game_states = {
      'Morality' => 0,
      'Food' => 0,
      'Weapon' => 0,
-     'Pet' => 1, # true means alive
+     'Pet' => 1,
      'Health' => 1,
-     'ChildSaved' => false,
-     'Waypoint' => 0
+     'CharlieSaved' => false,
+     'CurrentWaypoint' => 0,
+     'Waypoint0' => [0,0],
+     'Waypoint1' => [0,0,0]
  }
 
  def translate_game_states(game_states)
@@ -133,6 +135,8 @@ puts enter
 gets
 
 game_states = get_waypoint0_result(game_states)
-game_states['Waypoint'] = 1
+game_states['CurrentWaypoint'] = 1
 translate_game_states(game_states)
 waypoint_check(game_states, 0)
+game_states = get_waypoint1_result(game_states)
+game_states['CurrentWaypoint'] = 2
